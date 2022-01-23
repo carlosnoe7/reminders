@@ -1,23 +1,22 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 export interface ModalState {
-  value: boolean
+  value: boolean;
+  type:'add' | 'edit';
 }
 
 const initialState: ModalState = {
   value: false,
+  type:'add'
 }
 
 export const modalSlice = createSlice({
-  name: 'counter',
+  name: 'modal',
   initialState,
   reducers: {
-    open: (state) => {
-      // Redux Toolkit allows us to write "mutating" logic in reducers. It
-      // doesn't actually mutate the state because it uses the Immer library,
-      // which detects changes to a "draft state" and produces a brand new
-      // immutable state based off those changes
-      state.value=true
+    open: (state,action:PayloadAction<'add' | 'edit'>) => {
+      state.value=true;
+      state.type=action.payload;
     },
     close: (state) => {
         state.value=false;

@@ -19,6 +19,7 @@
     margin:auto 0;
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 
 .formAdd__form__msg{
@@ -44,6 +45,14 @@
     padding: 8px 12px;
     font-size:1em;
     color:#fff;
+}
+
+.formAdd__form__date{
+    margin:10px 0;
+}
+.react-datepicker__input-container>input{
+    padding:5px;
+    font-size: 1em;
 }
 .formAdd__buttons__close{
     background-color:#CD1818;

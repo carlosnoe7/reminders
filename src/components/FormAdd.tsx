@@ -1,13 +1,30 @@
-import { useState } from "react";
+import dayjs from 'dayjs'
+import DatePicker from "react-datepicker";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { TodoProps } from "../interfaces";
+
 import { close } from "../services/modal.reducer";
-import { getReminders as getRemindersSelector, setReminders } from "../services/reminders.reducer";
+import { RootState } from "../app/store";
+import { useItems } from '../helpers/index';
 import '../styles/FormAdd.css';
 
-const FormAdd = () => {
+import "react-datepicker/dist/react-datepicker.css";
+
+export const FormAdd = () => {
     const [reminder, setReminder] = useState('');
-    const Reminders =useSelector(getRemindersSelector);
+    const {valueChange} = useSelector(state => (state as RootState).items);
+    const {type} = useSelector(state => (state as RootState).modal);
+    const {handleSave,handleSubmit}=useItems();
+    const [startDate, setStartDate] = useState<Date>(new Date());
+
+    useEffect(() => {
+      setReminder(valueChange.title)
+      let fechacool:any=dayjs(valueChange.deadline).toDate();
+      setStartDate(fechacool);
+      
+    }, [valueChange])
+    
+
     const dispatch=useDispatch();
 
     const closeModal = () => {
@@ -16,23 +33,27 @@ const FormAdd = () => {
     const handleChange = (e:any) => {
         setReminder(e.target.value);
     }
-    const handleSumbit = (e:any) => {
-        e.preventDefault();
-    const todo:TodoProps={
-      userId:Reminders.length+1,
-      id:Reminders.length+1,
-      title:reminder,
-      completed:false
+    const handleClick=(e:any)=> {
+      e.preventDefault();
+      // let fecha=dayjs(startDate).format('DD/MM');
+      if (type==='add') {
+
+        handleSubmit(e,reminder,startDate);  
+      }
+      else{
+        handleSave(e,reminder,valueChange.id,startDate,valueChange.completed);
+      }
     }
-    
-    dispatch(setReminders(todo));
-        dispatch(close());
-    }
+
   return (
     <div className="formAdd">
-        <span className="formAdd__title">Agregar reminder</span>
-        <form className="formAdd__form" onSubmit={handleSumbit}>
+        <span className="formAdd__title">{type==='add' ? 'Agregar' : 'Editar'} reminder</span>
+        <form className="formAdd__form" onSubmit={handleClick}>
           <textarea  className="formAdd__form__msg" onChange={handleChange} value={reminder}/>
+          <div className="formAdd__form__date">
+            <DatePicker dateFormat="MM-dd" selected={startDate} onChange={(date) => { setStartDate(date!)}} />
+
+          </div>
           <div className="formAdd__form__buttons">
             <button className="formAdd__buttons__close" type="button" onClick={closeModal}>
                 Cancelar
@@ -44,4 +65,3 @@ const FormAdd = () => {
   );
 };
 
-export default FormAdd;

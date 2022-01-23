@@ -1,18 +1,17 @@
-import { useEffect, useState } from 'react';
-import { ReminderUI } from './components/ReminderUI';
-import './App.css';
-import { getReminders } from './services/todos.services';
-import { getReminders as getRemindersSelector, setReminders } from "./services/reminders.reducer";
+import {  useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import AddReminder from './components/AddReminder';
+
+import { getReminders } from './services/todos.services';
+import { getReminders as getRemindersSelector } from "./services/reminders.reducer";
 import { open } from './services/modal.reducer';
-import FormAdd from './components/FormAdd';
+import { AddReminder, FormAdd, ReminderUI } from './components';
+import './App.css';
 
 
 function App() {
   
   const Reminders =useSelector(getRemindersSelector);
-  const [modalOpen, setmodalOpen] = useState<boolean>(false);
+  const {type} = useSelector(state => (state as any).modal)
   const dispatch =useDispatch();
   useEffect(() => {
     getReminders();
@@ -21,8 +20,9 @@ function App() {
  
   const add=()=>{
     // setmodalOpen(true);
-    dispatch(open());
+    dispatch(open('add'));
   }
+
   return (
     <div className="container">
       <AddReminder>
@@ -33,14 +33,21 @@ function App() {
       <button className="add" onClick={add}>+</button>
      </header>
      <main className="reminders">
+       <h2>Pendientes</h2>
+       <hr />
        <ul className="reminders-list">
-         {Reminders.map((reminder:any,i) =>{
-          return <ReminderUI reminder={reminder.title} key={reminder.id + i} /> 
+         {Reminders.filter(r=>r.completed===false).map((reminder:any,i) =>{  
+          return <ReminderUI reminder={reminder.title} completed={reminder.completed}
+          id={`${reminder.id}`} key={reminder.id + i} deadline={reminder.deadline} /> 
           })}
-         {/* {Reminders.map((reminder:any,i) =>{
-           console.log(reminder)
-          })} */}
-
+       </ul>
+       <h2>Completados</h2>
+       <hr />
+       <ul className="reminders-list">
+         {Reminders.filter(r=>r.completed===true).map((reminder:any,i) =>{  
+          return <ReminderUI reminder={reminder.title} completed={reminder.completed}
+          id={`${reminder.id}`} key={'RC'+reminder.id + i} deadline={reminder.deadline} /> 
+          })}
        </ul>
      </main>
     </div>

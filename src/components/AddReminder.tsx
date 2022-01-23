@@ -7,7 +7,7 @@ interface AddReminderProps{
     children?:ReactElement | ReactElement[];
 }
 
-const AddReminder = ({children}:AddReminderProps) => {
+export const AddReminder = ({children}:AddReminderProps) => {
     const {value} = useSelector((state) => (state as any).modal);
     const customStyles = {
         content: {
@@ -34,4 +34,4 @@ const AddReminder = ({children}:AddReminderProps) => {
     )
 }
 
-export default AddReminder
+

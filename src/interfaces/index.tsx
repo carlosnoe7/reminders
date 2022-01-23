@@ -1,6 +1,7 @@
 export interface TodoProps {
-    userId:    number;
-    id:        number;
+    userId:    string;
+    id:        string;
     title:     string;
     completed: boolean;
+    deadline:Date;
 }
