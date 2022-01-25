@@ -1,0 +1,106 @@
+.reminder-item{
+    list-style-type: none;
+    display:flex;
+    border: 1px solid #a5a5a8;
+    border-radius: 20px;
+    margin-bottom: 10px;  
+    padding: 5px 10px;
+    justify-content: space-between;
+    width: 600px;
+  }
+  .reminder-item-container{
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    word-break: break-all;
+    max-width: 500px;
+  }
+  .reminder-item:hover{
+    /* background-color:#959492; */
+    cursor: pointer;
+  
+  }
+  .reminder-item__edit{
+    background: url('/public/icons/edit.svg') no-repeat;
+  }
+  .reminder-item__delete{
+    background: url('/public/icons/delete.svg') no-repeat;
+  }
+  .reminder-item__edit,.reminder-item__delete{
+    border: none;
+    width: 32px;
+    height: 32px;
+    background-size: 25px 25px;
+    background-position-x: center;
+    background-position-y: center;
+    vertical-align: middle;
+    margin: 0px 5px 0px 10px;
+    border-radius:50%;
+  }
+  .reminder-item__edit:hover,.reminder-item__delete:hover{
+    background-color: #ccc;
+  
+  }
+  
+  
+  .reminder-item__buttons{
+    display: flex;
+  }
+
+  
+.reminder-item-check{
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  
+  }
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    border-radius:50%;
+    background-color: #eee;
+  }
+  .reminder-item-container:hover input ~ .checkmark {
+    background-color: #ccc;
+  }
+  
+  .reminder-item-container input:checked ~ .checkmark {
+    background-color: #2196F3;
+  }
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  .reminder-item-container input:checked ~ .checkmark:after {
+    display: block;
+  }
+  .reminder-item-container .checkmark:after{
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+  @media (max-width: 768px) {
+
+    .reminder-item{
+        width: auto;
+      }
+  }  

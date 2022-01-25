@@ -1,11 +1,7 @@
-import React, {  useRef, useState } from 'react';
+import React, {   useState } from 'react';
 import dayjs from 'dayjs';
-import { useDispatch } from 'react-redux';
-
-import { setItemToChange } from '../services/item.reducer';
-import { open } from '../services/modal.reducer';
-import { changeCompleted, deleteReminders } from '../services/reminders.reducer';
-import '../App.css';
+import '../styles/ReminderUI.css';
+import { useReminder } from '../hooks/useReminder';
 
 interface reminderProps{
     reminder: string;
@@ -15,36 +11,9 @@ interface reminderProps{
   }
   
   export const ReminderUI=React.memo(({reminder,id,deadline,completed}:reminderProps)=>{
-    const dispatch=useDispatch();
     const [check,setCheck]=useState(completed);
-    let refCheck=useRef(false);
+    const {handleClick,handleChange,handleDelete}=useReminder({args:{userId:id,title:reminder,id,deadline,completed},check,setCheck})
     
-    const handleClick = () => {
-      dispatch(open('edit'));
-      dispatch(setItemToChange({
-        id,
-        userId:id,
-        completed,
-        title:reminder,
-        deadline
-      }))
-    }
-    const handleDelete=()=>{
-      dispatch(deleteReminders(id));
-    }
-    const handleChange=()=>{
-      refCheck.current=check;
-      setCheck(c=>!c);
-      dispatch(changeCompleted(
-        {
-          id,
-          userId:id,
-          completed:!refCheck.current,
-          title:reminder,
-          deadline
-        }
-      ))
-    }
     return(
   
     <li className='reminder-item'>

@@ -1,5 +1,5 @@
 import axios from "axios";
-import dayjs from "dayjs";
+
 import store from "../app/store";
 import { TodoProps } from "../interfaces";
 import { setReminders } from "./reminders.reducer";
@@ -14,13 +14,17 @@ export async function getReminders() {
     const { data }:{data:TodoProps[]} = await axios.get(url);
     console.log('Poniendo la data')
     let date=new Date();
-    data.slice(0,5).forEach((todo:TodoProps) => {
+    let countCompleted=1;
+    let countUncompleted=1;
+    data.slice(0,5).forEach((todo:TodoProps,i) => {
         if (todo.completed) {
           
-          store.dispatch(setReminders({...todo,id:`RC - ${todo.id}`,deadline:date}));
+          store.dispatch(setReminders({...todo,id:`RC - ${countCompleted}`,deadline:date}));
+          countCompleted++;
         }
         else{
-          store.dispatch(setReminders({...todo,id:`Reminder - ${todo.id}`,deadline:date}));
+          store.dispatch(setReminders({...todo,id:`Reminder - ${countUncompleted}`,deadline:date}));
+          countUncompleted++;
 
         }
     })

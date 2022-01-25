@@ -4,7 +4,8 @@ import { TodoProps } from "../interfaces";
 import store from "../app/store";
 
 
-const Reminders =store.getState().reminders.list;
+
+
 export const useItems=()=>{
     
     
@@ -18,10 +19,13 @@ export const useItems=()=>{
 
 
  const handleSubmit = (e:any,reminder:string,deadline:Date) => {
+    let Reminders =store.getState().reminders.list;
+    console.log('La longitud es',);
+
     e.preventDefault();
     const todo:TodoProps={
-    userId:`Reminder - ${Reminders.length + 1}`,
-    id:`Reminder - ${Reminders.length + 1}`,
+    userId:`Reminder - ${Reminders.filter(r=>r.completed==false).length + 1}`,
+    id:`Reminder - ${Reminders.filter(r=>r.completed==false).length + 1}`,
     title:reminder,
     completed:false,
     deadline

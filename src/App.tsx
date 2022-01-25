@@ -11,7 +11,6 @@ import './App.css';
 function App() {
   
   const Reminders =useSelector(getRemindersSelector);
-  const {type} = useSelector(state => (state as any).modal)
   const dispatch =useDispatch();
   useEffect(() => {
     getReminders();
